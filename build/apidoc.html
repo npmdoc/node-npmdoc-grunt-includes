@@ -1,0 +1,198 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/vanetix/grunt-includes"
+
+    >grunt-includes (v1.0.0)</a>
+</h1>
+<h4>Include other files within a file.</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.grunt-includes">module grunt-includes</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.grunt-includes.grunt-includes">
+            function <span class="apidocSignatureSpan"></span>grunt-includes
+            <span class="apidocSignatureSpan">(grunt)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.grunt-includes" id="apidoc.module.grunt-includes">module grunt-includes</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.grunt-includes.grunt-includes" id="apidoc.element.grunt-includes.grunt-includes">
+        function <span class="apidocSignatureSpan"></span>grunt-includes
+        <span class="apidocSignatureSpan">(grunt)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">grunt-includes = function (grunt) {
+
+  // Project configuration.
+  grunt.initConfig({
+
+    jshint: {
+      all: [
+        &#x27;Gruntfile.js&#x27;,
+        &#x27;tasks/includes.js&#x27;,
+        &#x27;&#x3c;%= nodeunit.tests %&#x3e;&#x27;
+      ],
+      options: {
+        jshintrc: &#x27;.jshintrc&#x27;
+      }
+    },
+
+    nodeunit: {
+      tests: [&#x27;test/index.js&#x27;]
+    },
+
+    // Remove test staging directory
+    clean: {
+      tests: [&#x27;tmp&#x27;]
+    },
+
+    // Build the test cases
+    includes: {
+      options: {
+        debug: false
+      },
+      tests: {
+        cwd: &#x27;test&#x27;,
+        src: [&#x27;**/*.html&#x27;],
+        dest: &#x27;tmp&#x27;
+      },
+      flatten: {
+        flatten: true,
+        src: [&#x27;test/cases/simple.html&#x27;],
+        dest: &#x27;tmp/flatten&#x27;
+      },
+      banner: {
+        src: [&#x27;test/cases/simple.html&#x27;],
+        dest: &#x27;tmp/banner/banner.html&#x27;,
+        options: {
+          banner: &#x27;/* banner test */\n&#x27;
+        }
+      },
+      includePath: {
+        src: [&#x27;test/cases/simple.html&#x27;],
+        dest: &#x27;tmp/include_path/simple.html&#x27;,
+        options: {
+          includePath: &#x27;test/cases/includes&#x27;
+        }
+      },
+      template: {
+        src: [&#x27;test/cases/template.html&#x27;],
+        dest: &#x27;tmp/template/template.html&#x27;,
+        options: {
+          template: &#x27;Template start {{ fileName }}&#x27; + &#x22;\n&#x22; +
+                    &#x27;{{ file }}&#x27; + &#x22;\n&#x22; +
+                    &#x27;Template end&#x27;
+        }
+      },
+      full_path: {
+        src: [&#x27;test/cases/simple.html&#x27;],
+        dest: &#x27;tmp/full_path/simple.html&#x27;,
+        options: {
+          filenamePrefix: &#x27;404_&#x27;,
+          filenameSuffix: &#x27;.js&#x27;
+        }
+      },
+      multiple_paths: {
+        src: [&#x27;test/cases/simple.html&#x27;],
+        dest: &#x27;tmp/multiple_paths/simple.html&#x27;,
+        options: {
+          includePath: [
+            &#x27;no_where&#x27;,
+            &#x27;test/cases/include&#x27;,
+            &#x27;test/cases/includes&#x27;
+          ]
+        }
+      }
+    }
+  });
+
+  // Load this task
+  grunt.loadTasks(&#x27;tasks&#x27;);
+
+  // Load plugins used by this task gruntfile
+  grunt.loadNpmTasks(&#x27;grunt-contrib-clean&#x27;);
+  grunt.loadNpmTasks(&#x27;grunt-contrib-jshint&#x27;);
+  grunt.loadNpmTasks(&#x27;grunt-contrib-nodeunit&#x27;);
+
+  // Test task cleans `tmp` and builds includes, then runs tests
+  grunt.registerTask(&#x27;test&#x27;, [&#x27;clean&#x27;, &#x27;includes&#x27;, &#x27;nodeunit&#x27;]);
+
+  // Default task
+  grunt.registerTask(&#x27;default&#x27;, [&#x27;jshint&#x27;, &#x27;test&#x27;]);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
